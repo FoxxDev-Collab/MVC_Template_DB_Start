@@ -1,0 +1,194 @@
+@model Compliance_Tracker.Models.UserSettingsViewModel
+@{
+    ViewData["Title"] = "User Settings";
+}
+
+<div class="container py-4" style="max-width: 900px;">
+    @{
+        ViewData["Items"] = new List<dynamic> {
+            new { Text = "Home", Url = Url.Action("Index", "Home") },
+            new { Text = "Settings", Url = "" }
+        };
+    }
+    <partial name="_Breadcrumb" />
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        ViewData["Message"] = TempData["SuccessMessage"]!.ToString();
+        ViewData["Variant"] = "success";
+        ViewData["Dismissible"] = "True";
+        <partial name="_Alert" />
+    }
+
+    <div class="row g-4">
+        <!-- Profile Settings Card -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Profile Settings</h5>
+                </div>
+                <div class="card-body">
+                    @if (ViewData.ModelState.ErrorCount > 0)
+                    {
+                        ViewData["Message"] = "Please correct the errors below.";
+                        ViewData["Variant"] = "danger";
+                        ViewData["Dismissible"] = "False";
+                        <partial name="_Alert" />
+                    }
+
+                    <form asp-action="UpdateProfile" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="FirstName" class="form-label"></label>
+                                <input asp-for="FirstName" class="form-control" placeholder="Enter first name" />
+                                <span asp-validation-for="FirstName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="LastName" class="form-label"></label>
+                                <input asp-for="LastName" class="form-control" placeholder="Enter last name" />
+                                <span asp-validation-for="LastName" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Username" class="form-label"></label>
+                            <input asp-for="Username" class="form-control" placeholder="Enter username" />
+                            <span asp-validation-for="Username" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" type="email" placeholder="Enter email address" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="AvatarColor" class="form-label"></label>
+                            <div class="d-flex gap-3 align-items-center">
+                                <input asp-for="AvatarColor" type="color" class="form-control form-control-color" style="width: 100px; height: 50px;" />
+                                <input asp-for="AvatarColor" type="text" class="form-control" placeholder="#1e9df1" style="max-width: 150px;" />
+                                <span class="text-muted-foreground small">Choose your avatar color</span>
+                            </div>
+                            <span asp-validation-for="AvatarColor" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex gap-2 justify-content-end">
+                            @{
+                                ViewData["Text"] = "Save Changes";
+                                ViewData["Type"] = "submit";
+                                ViewData["Variant"] = "primary";
+                            }
+                            <partial name="_Button" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Change Password Card -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Change Password</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="ChangePassword" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label for="CurrentPassword" class="form-label">Current Password</label>
+                            <input name="CurrentPassword" type="password" class="form-control" placeholder="Enter current password" autocomplete="current-password" />
+                            <span class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="NewPassword" class="form-label">New Password</label>
+                            <input name="NewPassword" type="password" class="form-control" placeholder="Enter new password" autocomplete="new-password" />
+                            <small class="form-text text-muted-foreground d-block mt-1">
+                                Password must be at least 12 characters and include uppercase, lowercase, number, and special character.
+                            </small>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="ConfirmPassword" class="form-label">Confirm New Password</label>
+                            <input name="ConfirmPassword" type="password" class="form-control" placeholder="Confirm new password" autocomplete="new-password" />
+                        </div>
+
+                        <div class="d-flex gap-2 justify-content-end">
+                            @{
+                                ViewData["Text"] = "Change Password";
+                                ViewData["Type"] = "submit";
+                                ViewData["Variant"] = "primary";
+                            }
+                            <partial name="_Button" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Avatar Preview Card -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Avatar Preview</h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <div class="avatar avatar-xl mx-auto" style="background-color: @Model.AvatarColor; color: white; font-size: 2rem; width: 120px; height: 120px;" id="avatar-preview">
+                            @Model.Initials
+                        </div>
+                    </div>
+                    <h6 class="mb-1">@Model.FirstName @Model.LastName</h6>
+                    <p class="text-muted-foreground small mb-0">@Model.Email</p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6 class="mb-0">Color Presets</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="button" class="color-preset" data-color="#1e9df1" style="width: 40px; height: 40px; border: 2px solid var(--border); border-radius: var(--radius-md); background-color: #1e9df1; cursor: pointer;"></button>
+                        <button type="button" class="color-preset" data-color="#10b981" style="width: 40px; height: 40px; border: 2px solid var(--border); border-radius: var(--radius-md); background-color: #10b981; cursor: pointer;"></button>
+                        <button type="button" class="color-preset" data-color="#f59e0b" style="width: 40px; height: 40px; border: 2px solid var(--border); border-radius: var(--radius-md); background-color: #f59e0b; cursor: pointer;"></button>
+                        <button type="button" class="color-preset" data-color="#ef4444" style="width: 40px; height: 40px; border: 2px solid var(--border); border-radius: var(--radius-md); background-color: #ef4444; cursor: pointer;"></button>
+                        <button type="button" class="color-preset" data-color="#8b5cf6" style="width: 40px; height: 40px; border: 2px solid var(--border); border-radius: var(--radius-md); background-color: #8b5cf6; cursor: pointer;"></button>
+                        <button type="button" class="color-preset" data-color="#ec4899" style="width: 40px; height: 40px; border: 2px solid var(--border); border-radius: var(--radius-md); background-color: #ec4899; cursor: pointer;"></button>
+                        <button type="button" class="color-preset" data-color="#06b6d4" style="width: 40px; height: 40px; border: 2px solid var(--border); border-radius: var(--radius-md); background-color: #06b6d4; cursor: pointer;"></button>
+                        <button type="button" class="color-preset" data-color="#84cc16" style="width: 40px; height: 40px; border: 2px solid var(--border); border-radius: var(--radius-md); background-color: #84cc16; cursor: pointer;"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Update avatar preview when color changes
+        const colorInputs = document.querySelectorAll('input[name="AvatarColor"]');
+        const avatarPreview = document.getElementById('avatar-preview');
+
+        colorInputs.forEach(input => {
+            input.addEventListener('input', function(e) {
+                const color = e.target.value;
+                colorInputs.forEach(i => i.value = color);
+                avatarPreview.style.backgroundColor = color;
+            });
+        });
+
+        // Color preset buttons
+        const colorPresets = document.querySelectorAll('.color-preset');
+        colorPresets.forEach(button => {
+            button.addEventListener('click', function() {
+                const color = this.getAttribute('data-color');
+                colorInputs.forEach(i => i.value = color);
+                avatarPreview.style.backgroundColor = color;
+            });
+        });
+    </script>
+}

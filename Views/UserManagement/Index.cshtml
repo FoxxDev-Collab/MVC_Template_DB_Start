@@ -1,0 +1,180 @@
+@model IEnumerable<Compliance_Tracker.Models.UserListViewModel>
+@{
+    ViewData["Title"] = "User Management";
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>User Management</h2>
+        @{
+            ViewData["Text"] = "Add New User";
+            ViewData["Href"] = Url.Action("Create");
+            ViewData["Variant"] = "primary";
+            ViewData["Icon"] = "bi bi-plus-circle";
+        }
+        <partial name="_Button" />
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        ViewData["Message"] = TempData["SuccessMessage"]!.ToString();
+        ViewData["Variant"] = "success";
+        ViewData["Dismissible"] = "True";
+        <partial name="_Alert" />
+    }
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Users (@Model.Count())</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table-themed table-hover">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Roles</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Last Login</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr id="user-row-@user.Id">
+                                <td><strong>@user.Username</strong></td>
+                                <td>@user.FullName</td>
+                                <td>@user.Email</td>
+                                <td>
+                                    @foreach (var role in user.Roles)
+                                    {
+                                        ViewData["Text"] = role;
+                                        ViewData["Variant"] = role == "Admin" ? "danger" : "primary";
+                                        <partial name="_Badge" />
+                                        <text> </text>
+                                    }
+                                </td>
+                                <td>
+                                    <span id="status-badge-@user.Id">
+                                        @{
+                                            ViewData["Text"] = user.IsActive ? "Active" : "Inactive";
+                                            ViewData["Variant"] = user.IsActive ? "success" : "secondary";
+                                        }
+                                        <partial name="_Badge" />
+                                    </span>
+                                </td>
+                                <td>@user.CreatedDate.ToLocalTime().ToString("MM/dd/yyyy")</td>
+                                <td>@(user.LastLoginDate?.ToLocalTime().ToString("MM/dd/yyyy HH:mm") ?? "Never")</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        @{
+                                            ViewData["Text"] = "Edit";
+                                            ViewData["Href"] = Url.Action("Edit", new { id = user.Id });
+                                            ViewData["Variant"] = "outline-primary";
+                                            ViewData["Size"] = "sm";
+                                        }
+                                        <partial name="_Button" />
+                                        @{
+                                            ViewData["Text"] = "Password";
+                                            ViewData["Href"] = Url.Action("ChangePassword", new { id = user.Id });
+                                            ViewData["Variant"] = "outline-secondary";
+                                            ViewData["Size"] = "sm";
+                                        }
+                                        <partial name="_Button" />
+                                        <button type="button" class="btn btn-outline-warning btn-sm" onclick="toggleActive('@user.Id')">
+                                            @(user.IsActive ? "Deactivate" : "Activate")
+                                        </button>
+                                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteUser('@user.Id', '@user.Username')">
+                                            Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form id="deleteForm" method="post" style="display:none;">
+    @Html.AntiForgeryToken()
+</form>
+
+<form id="toggleForm" method="post" style="display:none;">
+    @Html.AntiForgeryToken()
+</form>
+
+@section Scripts {
+    <script>
+        function deleteUser(userId, username) {
+            if (!confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)) {
+                return;
+            }
+
+            const form = document.getElementById('deleteForm');
+            form.action = '@Url.Action("Delete")';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'id';
+            input.value = userId;
+            form.appendChild(input);
+
+            fetch(form.action + '?id=' + userId, {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': form.querySelector('[name="__RequestVerificationToken"]').value
+                },
+                body: new FormData(form)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('user-row-' + userId).remove();
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                alert('An error occurred while deleting the user.');
+            });
+        }
+
+        function toggleActive(userId) {
+            const form = document.getElementById('toggleForm');
+            form.action = '@Url.Action("ToggleActive")';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'id';
+            input.value = userId;
+            form.appendChild(input);
+
+            fetch(form.action + '?id=' + userId, {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': form.querySelector('[name="__RequestVerificationToken"]').value
+                },
+                body: new FormData(form)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                alert('An error occurred while updating user status.');
+            });
+        }
+    </script>
+}
