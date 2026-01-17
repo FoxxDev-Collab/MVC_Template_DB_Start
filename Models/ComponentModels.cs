@@ -1,4 +1,4 @@
-namespace Compliance_Tracker.Models
+namespace HLE.Template.Models
 {
     /// <summary>
     /// Model for Button component
@@ -153,7 +153,7 @@ namespace Compliance_Tracker.Models
     /// </summary>
     public class NavBarModel
     {
-        public string Brand { get; set; } = "Compliance Tracker";
+        public string Brand { get; set; } = "HLE App";
         public string BrandUrl { get; set; } = "/";
         public string? BrandLogo { get; set; }
         public string Variant { get; set; } = "light";

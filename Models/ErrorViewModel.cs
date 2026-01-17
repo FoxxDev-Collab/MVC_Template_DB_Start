@@ -1,4 +1,4 @@
-namespace Compliance_Tracker.Models
+namespace HLE.Template.Models
 {
     public class ErrorViewModel
     {

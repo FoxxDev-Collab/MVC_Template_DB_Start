@@ -1,21 +1,24 @@
-using Compliance_Tracker.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Compliance_Tracker.Data;
+namespace HLE.Template.Data;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
 
+    // Add your DbSets here
+    // Example: public DbSet<YourEntity> YourEntities { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
-        // Customize the ASP.NET Identity model and override the defaults if needed
-        // For example, you can rename the ASP.NET Identity table names and more
+        // Apply configurations from assembly
+        builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
+        // PostgreSQL-specific configurations can be added here
     }
 }

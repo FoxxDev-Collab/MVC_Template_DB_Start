@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace Compliance_Tracker.Extensions
+namespace HLE.Template.Extensions
 {
     /// <summary>
     /// Extension methods for easier ViewData manipulation when using UI components

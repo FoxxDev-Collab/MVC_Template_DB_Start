@@ -1,47 +1,41 @@
-using Compliance_Tracker.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
-namespace Compliance_Tracker.ViewComponents;
+namespace HLE.Template.ViewComponents;
 
 public class UserAvatarViewComponent : ViewComponent
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-
-    public UserAvatarViewComponent(UserManager<ApplicationUser> userManager)
-    {
-        _userManager = userManager;
-    }
-
-    public async Task<IViewComponentResult> InvokeAsync()
+    public Task<IViewComponentResult> InvokeAsync()
     {
         if (User.Identity?.IsAuthenticated != true)
         {
-            return Content("");
+            return Task.FromResult<IViewComponentResult>(Content(""));
         }
 
-        var user = await _userManager.GetUserAsync(UserClaimsPrincipal);
-        if (user == null)
+        // Get user info from OIDC claims
+        var claimsPrincipal = User as ClaimsPrincipal;
+        var userName = User.Identity.Name ?? "";
+        var email = claimsPrincipal?.FindFirst("email")?.Value ?? "";
+        var preferredUsername = claimsPrincipal?.FindFirst("preferred_username")?.Value ?? userName;
+
+        // Generate initials from name
+        var nameParts = userName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var initials = nameParts.Length switch
         {
-            return Content("");
-        }
+            >= 2 => $"{nameParts[0][0]}{nameParts[^1][0]}".ToUpper(),
+            1 => nameParts[0].Length >= 2 ? nameParts[0][..2].ToUpper() : nameParts[0].ToUpper(),
+            _ => "?"
+        };
 
         var model = new
         {
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Email = user.Email,
-            AvatarColor = user.AvatarColor,
-            Initials = GetInitials(user.FirstName, user.LastName)
+            UserName = userName,
+            Email = email,
+            PreferredUsername = preferredUsername,
+            Initials = initials,
+            AvatarColor = "primary" // Can be customized based on app preferences
         };
 
-        return View(model);
-    }
-
-    private string GetInitials(string? firstName, string? lastName)
-    {
-        var first = !string.IsNullOrEmpty(firstName) ? firstName[0].ToString().ToUpper() : "";
-        var last = !string.IsNullOrEmpty(lastName) ? lastName[0].ToString().ToUpper() : "";
-        return first + last;
+        return Task.FromResult<IViewComponentResult>(View(model));
     }
 }

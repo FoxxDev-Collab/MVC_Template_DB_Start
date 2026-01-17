@@ -1,42 +1,32 @@
 using System.Diagnostics;
-using Compliance_Tracker.Models;
-using Microsoft.AspNetCore.Identity;
+using HLE.Template.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Compliance_Tracker.Controllers
+namespace HLE.Template.Controllers;
+
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly ILogger<HomeController> _logger;
+
+    public HomeController(ILogger<HomeController> logger)
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly UserManager<ApplicationUser> _userManager;
+        _logger = logger;
+    }
 
-        public HomeController(
-            ILogger<HomeController> logger,
-            UserManager<ApplicationUser> userManager)
+    public IActionResult Index()
+    {
+        // User claims from Authentik are available via User.Claims
+        if (User.Identity?.IsAuthenticated == true)
         {
-            _logger = logger;
-            _userManager = userManager;
+            ViewData["UserName"] = User.Identity.Name;
+            ViewData["Email"] = User.FindFirst("email")?.Value;
         }
+        return View();
+    }
 
-        public async Task<IActionResult> Index()
-        {
-            if (User.Identity?.IsAuthenticated == true)
-            {
-                var user = await _userManager.GetUserAsync(User);
-                if (user != null)
-                {
-                    ViewData["FirstName"] = user.FirstName;
-                    ViewData["LastName"] = user.LastName;
-                    ViewData["UserName"] = user.UserName;
-                }
-            }
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
