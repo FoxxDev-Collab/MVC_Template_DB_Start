@@ -20,7 +20,7 @@
   --accent-foreground: rgb(15, 20, 25);
   --destructive: rgb(244, 33, 46);
   --destructive-foreground: rgb(255, 255, 255);
-  --border: rgb(229, 229, 230);
+  --border: rgb(209, 213, 219);
   --input: rgb(255, 255, 255);
   --ring: rgb(30, 157, 241);
   --chart-1: rgb(30, 157, 241);
@@ -71,7 +71,7 @@
   --accent-foreground: rgb(231, 233, 234);
   --destructive: rgb(244, 33, 46);
   --destructive-foreground: rgb(231, 233, 234);
-  --border: rgb(38, 38, 38);
+  --border: rgb(63, 63, 70);
   --input: rgb(38, 38, 38);
   --ring: rgb(28, 156, 240);
   --chart-1: rgb(30, 157, 241);

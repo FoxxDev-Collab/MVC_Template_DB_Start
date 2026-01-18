@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HLE.Template")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ec073e7631ec3ddeb2a27739dafef1ac8ade0b4a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eb940729c9493520932c3f07c46da8c0aacc20b8")]
 [assembly: System.Reflection.AssemblyProductAttribute("HLE.Template")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HLE.Template")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

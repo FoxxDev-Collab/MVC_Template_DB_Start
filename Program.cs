@@ -8,6 +8,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Add session support for authentication flows
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 // Configure PostgreSQL Database
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -34,6 +43,9 @@ builder.Services.AddAuthentication(options =>
     options.SaveTokens = true;
     options.GetClaimsFromUserInfoEndpoint = true;
 
+    // Allow HTTP for local Authentik development (set to true in production)
+    options.RequireHttpsMetadata = !builder.Environment.IsDevelopment();
+
     options.Scope.Clear();
     options.Scope.Add("openid");
     options.Scope.Add("profile");
@@ -59,6 +71,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 

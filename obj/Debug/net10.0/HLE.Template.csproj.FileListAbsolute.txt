@@ -133,7 +133,6 @@ D:\Dev Projects\HLEcosystem\MVC_Template_DB_Start\obj\Debug\net10.0\scopedcss\bu
 D:\Dev Projects\HLEcosystem\MVC_Template_DB_Start\obj\Debug\net10.0\scopedcss\projectbundle\HLE.Template.bundle.scp.css
 D:\Dev Projects\HLEcosystem\MVC_Template_DB_Start\obj\Debug\net10.0\compressed\c4bwtmmdfe-{0}-e9lk2v714s-e9lk2v714s.gz
 D:\Dev Projects\HLEcosystem\MVC_Template_DB_Start\obj\Debug\net10.0\compressed\sdhtvmao60-{0}-ps96u5hvsm-ps96u5hvsm.gz
-D:\Dev Projects\HLEcosystem\MVC_Template_DB_Start\obj\Debug\net10.0\compressed\j6rbxf2ji5-{0}-5cfqn1hm36-5cfqn1hm36.gz
 D:\Dev Projects\HLEcosystem\MVC_Template_DB_Start\obj\Debug\net10.0\compressed\xpzfzvi7ws-{0}-61n19gt1b8-61n19gt1b8.gz
 D:\Dev Projects\HLEcosystem\MVC_Template_DB_Start\obj\Debug\net10.0\compressed\sdal1jmwbt-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 D:\Dev Projects\HLEcosystem\MVC_Template_DB_Start\obj\Debug\net10.0\compressed\7d3e4g2gbf-{0}-sgjm24n75q-sgjm24n75q.gz
@@ -210,3 +209,4 @@ D:\Dev Projects\HLEcosystem\MVC_Template_DB_Start\obj\Debug\net10.0\refint\HLE.T
 D:\Dev Projects\HLEcosystem\MVC_Template_DB_Start\obj\Debug\net10.0\HLE.Template.pdb
 D:\Dev Projects\HLEcosystem\MVC_Template_DB_Start\obj\Debug\net10.0\HLE.Template.genruntimeconfig.cache
 D:\Dev Projects\HLEcosystem\MVC_Template_DB_Start\obj\Debug\net10.0\ref\HLE.Template.dll
+D:\Dev Projects\HLEcosystem\MVC_Template_DB_Start\obj\Debug\net10.0\compressed\j6rbxf2ji5-{0}-tj3llakwzk-tj3llakwzk.gz
