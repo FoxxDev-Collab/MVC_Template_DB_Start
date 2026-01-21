@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace HLE.Template.Controllers;
+namespace HLE.FamilyFinance.Controllers;
 
 public class ComponentsController : Controller
 {

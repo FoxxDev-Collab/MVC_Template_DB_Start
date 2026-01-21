@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HLE.Template.Controllers;
+namespace HLE.FamilyFinance.Controllers;
 
 [Authorize]
 public class SettingsController : Controller

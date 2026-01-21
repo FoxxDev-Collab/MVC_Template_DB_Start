@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace HLE.Template.ViewComponents;
+namespace HLE.FamilyFinance.ViewComponents;
 
 public class UserAvatarViewComponent : ViewComponent
 {

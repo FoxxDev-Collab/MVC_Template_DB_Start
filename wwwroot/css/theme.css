@@ -20,7 +20,7 @@
   --accent-foreground: rgb(15, 20, 25);
   --destructive: rgb(244, 33, 46);
   --destructive-foreground: rgb(255, 255, 255);
-  --border: rgb(209, 213, 219);
+  --border: rgb(0, 0, 0);
   --input: rgb(255, 255, 255);
   --ring: rgb(30, 157, 241);
   --chart-1: rgb(30, 157, 241);
@@ -71,7 +71,7 @@
   --accent-foreground: rgb(231, 233, 234);
   --destructive: rgb(244, 33, 46);
   --destructive-foreground: rgb(231, 233, 234);
-  --border: rgb(63, 63, 70);
+  --border: rgb(255, 255, 255);
   --input: rgb(38, 38, 38);
   --ring: rgb(28, 156, 240);
   --chart-1: rgb(30, 157, 241);
@@ -127,6 +127,45 @@ a:hover {
   outline-offset: 2px;
 }
 
+/* Form Inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="time"],
+input[type="month"],
+input[type="week"],
+textarea,
+select {
+  border: 1px solid var(--border) !important;
+  background-color: var(--input);
+  color: var(--foreground);
+  border-radius: var(--radius-sm);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="date"]:focus,
+input[type="datetime-local"]:focus,
+input[type="time"]:focus,
+input[type="month"]:focus,
+input[type="week"]:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--ring) !important;
+  box-shadow: 0 0 0 2px rgba(30, 157, 241, 0.1);
+}
+
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 10px;
@@ -177,7 +216,7 @@ a:hover {
 .text-primary-foreground { color: var(--primary-foreground); }
 .text-secondary { color: var(--secondary); }
 .text-secondary-foreground { color: var(--secondary-foreground); }
-.text-muted { color: var(--muted); }
+.text-muted { color: var(--muted-foreground) !important; }
 .text-muted-foreground { color: var(--muted-foreground); }
 .text-accent { color: var(--accent); }
 .text-accent-foreground { color: var(--accent-foreground); }
@@ -186,6 +225,20 @@ a:hover {
 .text-success { color: var(--chart-2); }
 .text-warning { color: var(--chart-3); }
 .text-info { color: var(--primary); }
+
+/* Bootstrap utility overrides for proper theming */
+.text-white { color: #ffffff !important; }
+.text-white-50 { color: rgba(255, 255, 255, 0.5) !important; }
+.text-black { color: #000000 !important; }
+.text-black-50 { color: rgba(0, 0, 0, 0.5) !important; }
+
+/* Ensure colored backgrounds have proper contrast */
+.bg-primary { background-color: var(--primary) !important; color: var(--primary-foreground) !important; }
+.bg-success { background-color: var(--chart-2) !important; color: #ffffff !important; }
+.bg-warning { background-color: var(--chart-3) !important; color: var(--foreground) !important; }
+.bg-danger { background-color: var(--destructive) !important; color: var(--destructive-foreground) !important; }
+.bg-info { background-color: var(--primary) !important; color: var(--primary-foreground) !important; }
+.bg-secondary { background-color: var(--secondary) !important; color: var(--secondary-foreground) !important; }
 
 .border-border { border-color: var(--border); }
 .border-input { border-color: var(--input); }

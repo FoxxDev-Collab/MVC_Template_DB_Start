@@ -1,4 +1,4 @@
-namespace HLE.Template.Models
+namespace HLE.FamilyFinance.Models
 {
     public class ErrorViewModel
     {
