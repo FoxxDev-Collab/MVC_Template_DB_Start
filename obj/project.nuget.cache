@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5Oz30lOLNw4=",
+  "dgSpecHash": "g9FZ3R/4pNI=",
   "success": true,
-  "projectFilePath": "D:\\Dev Projects\\HLEcosystem\\MVC_Template_DB_Start\\HLE.Template.csproj",
+  "projectFilePath": "D:\\Dev Projects\\HLEcosystem\\HLE.FamilyFinance\\HLE.FamilyFinance.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jerem\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\jerem\\.nuget\\packages\\microsoft.aspnetcore.authentication.openidconnect\\10.0.0\\microsoft.aspnetcore.authentication.openidconnect.10.0.0.nupkg.sha512",

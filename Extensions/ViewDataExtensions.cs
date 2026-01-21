@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace HLE.Template.Extensions
+namespace HLE.FamilyFinance.Extensions
 {
     /// <summary>
     /// Extension methods for easier ViewData manipulation when using UI components

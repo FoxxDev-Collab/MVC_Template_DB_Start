@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HLE.Template.Controllers;
+namespace HLE.FamilyFinance.Controllers;
 
 public class AccountController : Controller
 {
@@ -51,14 +51,12 @@ public class AccountController : Controller
 
     [Authorize]
     [HttpGet]
-    public IActionResult Logout()
+    public async Task<IActionResult> Logout()
     {
-        // Sign out from both cookie and OIDC schemes
-        return SignOut(
-            new AuthenticationProperties { RedirectUri = "/" },
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            OpenIdConnectDefaults.AuthenticationScheme
-        );
+        // Sign out locally (clear cookie) - doesn't sign out from Authentik
+        // This allows quick re-login without re-entering credentials
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return Redirect("/");
     }
 
     [HttpGet]
