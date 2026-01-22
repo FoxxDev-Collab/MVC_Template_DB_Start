@@ -1,0 +1,250 @@
+@using HLE.FamilyFinance.Services.Interfaces
+@using HLE.FamilyFinance.Helpers
+@using HLE.FamilyFinance.Models.Enums
+@model TaxYearDetailDto
+@{
+    ViewData["Title"] = $"{Model.Year} Tax Year";
+    var receivedCount = Model.Documents.Count(d => d.IsReceived);
+    var totalCount = Model.Documents.Count;
+    var progressPercent = totalCount > 0 ? (receivedCount * 100.0 / totalCount) : 0;
+}
+
+<div class="py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2><i class="@IconHelper.Nav.TaxCenter me-2"></i>@Model.Year Tax Year</h2>
+            <p class="text-muted mb-0">@Model.FederalFilingStatus @(Model.State != null ? $"• {Model.State}" : "")</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary"><i class="bi-pencil me-1"></i>Edit</a>
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to permanently delete this tax year and all its documents? This cannot be undone.');">
+                <button type="submit" class="btn btn-outline-danger"><i class="bi-trash me-1"></i>Delete</button>
+            </form>
+            <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <!-- Filing Status Card -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Filing Status</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center mb-3">
+                        <div class="col-6">
+                            <h6 class="text-muted">Federal</h6>
+                            @if (Model.IsFederalFiled)
+                            {
+                                <span class="badge bg-success fs-6"><i class="bi-check-circle me-1"></i>Filed</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark fs-6">Not Filed</span>
+                                <form asp-action="MarkFederalFiled" method="post" class="mt-2">
+                                    <input type="hidden" name="id" value="@Model.Id" />
+                                    <button type="submit" class="btn btn-sm btn-success">Mark Filed</button>
+                                </form>
+                            }
+                        </div>
+                        <div class="col-6">
+                            <h6 class="text-muted">State</h6>
+                            @if (Model.IsStateFiled)
+                            {
+                                <span class="badge bg-success fs-6"><i class="bi-check-circle me-1"></i>Filed</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark fs-6">Not Filed</span>
+                                <form asp-action="MarkStateFiled" method="post" class="mt-2">
+                                    <input type="hidden" name="id" value="@Model.Id" />
+                                    <button type="submit" class="btn btn-sm btn-success">Mark Filed</button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+
+                    @if (Model.FederalRefund.HasValue || Model.StateRefund.HasValue)
+                    {
+                        <hr />
+                        <div class="row text-center">
+                            @if (Model.FederalRefund.HasValue)
+                            {
+                                <div class="col">
+                                    <small class="text-muted">Federal</small>
+                                    <div class="@(Model.FederalRefund >= 0 ? "text-success" : "text-danger")">
+                                        @(Model.FederalRefund >= 0 ? "Refund" : "Owed")
+                                        <br /><strong class="fs-5">$@Math.Abs(Model.FederalRefund.Value).ToString("N2")</strong>
+                                    </div>
+                                </div>
+                            }
+                            @if (Model.StateRefund.HasValue)
+                            {
+                                <div class="col">
+                                    <small class="text-muted">State</small>
+                                    <div class="@(Model.StateRefund >= 0 ? "text-success" : "text-danger")">
+                                        @(Model.StateRefund >= 0 ? "Refund" : "Owed")
+                                        <br /><strong class="fs-5">$@Math.Abs(Model.StateRefund.Value).ToString("N2")</strong>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Document Progress Card -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Document Progress</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>@receivedCount of @totalCount received</span>
+                        <span>@progressPercent.ToString("N0")%</span>
+                    </div>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-success" style="width: @progressPercent%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Document Form -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi-plus-circle me-2"></i>Add Document</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="AddDocument" method="post">
+                        <input type="hidden" name="taxYearId" value="@Model.Id" />
+                        <div class="mb-3">
+                            <label class="form-label">Document Type</label>
+                            <select name="documentType" asp-items="@(ViewData["DocumentTypes"] as SelectList)" class="form-select" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Issuer</label>
+                            <input name="issuer" class="form-control" required placeholder="e.g., Employer Name" />
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label class="form-label small">Gross Amount</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">$</span>
+                                    <input name="grossAmount" type="text" class="form-control money-input" />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Fed Withheld</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">$</span>
+                                    <input name="federalWithheld" type="text" class="form-control money-input" />
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100"><i class="bi-plus me-1"></i>Add Document</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <!-- Documents List -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi-file-earmark-text me-2"></i>Tax Documents</h5>
+                </div>
+                @if (Model.Documents.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Document</th>
+                                    <th>Issuer</th>
+                                    <th class="text-end">Gross</th>
+                                    <th class="text-end">Fed Withheld</th>
+                                    <th class="text-end">State Withheld</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var doc in Model.Documents.OrderBy(d => d.IsReceived).ThenBy(d => d.DocumentType))
+                                {
+                                    var icon = IconHelper.GetTaxDocumentIcon(doc.DocumentType);
+                                    <tr class="@(doc.IsReceived ? "" : "table-warning")">
+                                        <td>
+                                            <i class="@icon me-2"></i>
+                                            @doc.DocumentType
+                                        </td>
+                                        <td>@doc.Issuer</td>
+                                        <td class="text-end">@(doc.GrossAmount.HasValue ? $"${doc.GrossAmount:N2}" : "-")</td>
+                                        <td class="text-end">@(doc.FederalWithheld.HasValue ? $"${doc.FederalWithheld:N2}" : "-")</td>
+                                        <td class="text-end">@(doc.StateWithheld.HasValue ? $"${doc.StateWithheld:N2}" : "-")</td>
+                                        <td>
+                                            @if (doc.IsReceived)
+                                            {
+                                                <span class="badge bg-success"><i class="bi-check"></i> Received</span>
+                                                @if (doc.ReceivedDate.HasValue)
+                                                {
+                                                    <br /><small class="text-muted">@doc.ReceivedDate.Value.ToString("MMM d")</small>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-warning text-dark">Waiting</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (!doc.IsReceived)
+                                            {
+                                                <form asp-action="MarkDocumentReceived" method="post" class="d-inline">
+                                                    <input type="hidden" name="documentId" value="@doc.Id" />
+                                                    <button type="submit" class="btn btn-sm btn-success" title="Mark Received">
+                                                        <i class="bi-check"></i>
+                                                    </button>
+                                                </form>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            @if (Model.Documents.Any(d => d.GrossAmount.HasValue || d.FederalWithheld.HasValue))
+                            {
+                                <tfoot class="table-light">
+                                    <tr>
+                                        <td colspan="2"><strong>Totals</strong></td>
+                                        <td class="text-end"><strong>$@Model.Documents.Sum(d => d.GrossAmount ?? 0).ToString("N2")</strong></td>
+                                        <td class="text-end"><strong>$@Model.Documents.Sum(d => d.FederalWithheld ?? 0).ToString("N2")</strong></td>
+                                        <td class="text-end"><strong>$@Model.Documents.Sum(d => d.StateWithheld ?? 0).ToString("N2")</strong></td>
+                                        <td colspan="2"></td>
+                                    </tr>
+                                </tfoot>
+                            }
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="card-body text-center py-5">
+                        <i class="bi-file-earmark-x fs-1 text-muted"></i>
+                        <p class="text-muted mt-2">No documents added yet. Add expected documents to track their arrival.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.Notes))
+    {
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi-sticky me-2"></i>Notes</h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-0">@Model.Notes</p>
+            </div>
+        </div>
+    }
+</div>

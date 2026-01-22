@@ -1,4 +1,5 @@
 @using HLE.FamilyFinance.Services.Interfaces
+@using HLE.FamilyFinance.Helpers
 @model List<CategoryDto>
 @{
     ViewData["Title"] = "Categories";
@@ -68,9 +69,18 @@
                         }
                         @foreach (var category in incomeParents)
                         {
+                            var catIcon = category.Icon ?? "bi-folder";
+                            var catStyle = !string.IsNullOrEmpty(category.Color) ? $"color: {category.Color}" : "";
                             <div class="list-group-item d-flex justify-content-between align-items-center">
                                 <div>
-                                    <span class="me-2">@(category.Icon ?? "📂")</span>
+                                    @if (catIcon.StartsWith("bi-"))
+                                    {
+                                        <i class="@catIcon me-2" style="@catStyle"></i>
+                                    }
+                                    else
+                                    {
+                                        <span class="me-2" style="@catStyle">@catIcon</span>
+                                    }
                                     <strong>@category.Name</strong>
                                     @if (category.TransactionCount > 0)
                                     {
@@ -90,9 +100,18 @@
                             var subCategories = incomeCategories.Where(c => c.ParentCategoryId == category.Id).ToList();
                             foreach (var sub in subCategories)
                             {
+                                var subIcon = sub.Icon ?? "bi-dot";
+                                var subStyle = !string.IsNullOrEmpty(sub.Color) ? $"color: {sub.Color}" : "";
                                 <div class="list-group-item d-flex justify-content-between align-items-center ps-5">
                                     <div>
-                                        <span class="me-2">@(sub.Icon ?? "•")</span>
+                                        @if (subIcon.StartsWith("bi-"))
+                                        {
+                                            <i class="@subIcon me-2" style="@subStyle"></i>
+                                        }
+                                        else
+                                        {
+                                            <span class="me-2" style="@subStyle">@subIcon</span>
+                                        }
                                         @sub.Name
                                         @if (sub.TransactionCount > 0)
                                         {
@@ -130,9 +149,18 @@
                         }
                         @foreach (var category in expenseParents)
                         {
+                            var expCatIcon = category.Icon ?? "bi-folder";
+                            var expCatStyle = !string.IsNullOrEmpty(category.Color) ? $"color: {category.Color}" : "";
                             <div class="list-group-item d-flex justify-content-between align-items-center">
                                 <div>
-                                    <span class="me-2">@(category.Icon ?? "📂")</span>
+                                    @if (expCatIcon.StartsWith("bi-"))
+                                    {
+                                        <i class="@expCatIcon me-2" style="@expCatStyle"></i>
+                                    }
+                                    else
+                                    {
+                                        <span class="me-2" style="@expCatStyle">@expCatIcon</span>
+                                    }
                                     <strong>@category.Name</strong>
                                     @if (category.TransactionCount > 0)
                                     {
@@ -152,9 +180,18 @@
                             var expenseSubCategories = expenseCategories.Where(c => c.ParentCategoryId == category.Id).ToList();
                             foreach (var sub in expenseSubCategories)
                             {
+                                var expSubIcon = sub.Icon ?? "bi-dot";
+                                var expSubStyle = !string.IsNullOrEmpty(sub.Color) ? $"color: {sub.Color}" : "";
                                 <div class="list-group-item d-flex justify-content-between align-items-center ps-5">
                                     <div>
-                                        <span class="me-2">@(sub.Icon ?? "•")</span>
+                                        @if (expSubIcon.StartsWith("bi-"))
+                                        {
+                                            <i class="@expSubIcon me-2" style="@expSubStyle"></i>
+                                        }
+                                        else
+                                        {
+                                            <span class="me-2" style="@expSubStyle">@expSubIcon</span>
+                                        }
                                         @sub.Name
                                         @if (sub.TransactionCount > 0)
                                         {

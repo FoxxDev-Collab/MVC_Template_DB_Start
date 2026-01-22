@@ -1,4 +1,5 @@
 @using HLE.FamilyFinance.Services.Interfaces
+@using HLE.FamilyFinance.Helpers
 @model HLE.FamilyFinance.Models.ViewModels.DashboardViewModel
 @{
     ViewData["Title"] = "Dashboard";
@@ -27,7 +28,7 @@
                             <h6 class="card-subtitle mb-1 text-white-50">Net Worth</h6>
                             <h2 class="card-title mb-0">$@Model.Stats.NetWorth.ToString("N2")</h2>
                         </div>
-                        <div class="fs-1 opacity-50">💎</div>
+                        <i class="@IconHelper.Dashboard.NetWorth fs-1 opacity-50"></i>
                     </div>
                 </div>
             </div>
@@ -40,7 +41,7 @@
                             <h6 class="card-subtitle mb-1 text-white-50">Monthly Income</h6>
                             <h2 class="card-title mb-0">$@Model.Stats.MonthlyIncome.ToString("N2")</h2>
                         </div>
-                        <div class="fs-1 opacity-50">💵</div>
+                        <i class="@IconHelper.Dashboard.Income fs-1 opacity-50"></i>
                     </div>
                 </div>
             </div>
@@ -53,7 +54,7 @@
                             <h6 class="card-subtitle mb-1 text-white-50">Monthly Expenses</h6>
                             <h2 class="card-title mb-0">$@Model.Stats.MonthlyExpenses.ToString("N2")</h2>
                         </div>
-                        <div class="fs-1 opacity-50">💸</div>
+                        <i class="@IconHelper.Dashboard.Expenses fs-1 opacity-50"></i>
                     </div>
                 </div>
             </div>
@@ -66,7 +67,7 @@
                             <h6 class="card-subtitle mb-1 text-white-50">Monthly Savings</h6>
                             <h2 class="card-title mb-0">$@Model.Stats.MonthlySavings.ToString("N2")</h2>
                         </div>
-                        <div class="fs-1 opacity-50">🎯</div>
+                        <i class="@IconHelper.Dashboard.Savings fs-1 opacity-50"></i>
                     </div>
                 </div>
             </div>
@@ -114,9 +115,17 @@
                         <ul class="list-group list-group-flush">
                             @foreach (var account in Model.Accounts.Take(5))
                             {
+                                var acctIcon = account.Icon ?? IconHelper.GetAccountIcon(account.Type);
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span class="me-2">@(account.Icon ?? "🏦")</span>
+                                        @if (acctIcon.StartsWith("bi-"))
+                                        {
+                                            <i class="@acctIcon me-2"></i>
+                                        }
+                                        else
+                                        {
+                                            <span class="me-2">@acctIcon</span>
+                                        }
                                         <a asp-controller="Accounts" asp-action="Details" asp-route-id="@account.Id" class="text-decoration-none">
                                             @account.Name
                                         </a>

@@ -177,9 +177,7 @@ D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\rjsmcshtml.dswa.
 D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\scopedcss\bundle\HLE.FamilyFinance.styles.css
 D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\scopedcss\projectbundle\HLE.FamilyFinance.bundle.scp.css
-D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\compressed\6sci6k6kq5-{0}-e9lk2v714s-e9lk2v714s.gz
 D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\compressed\86su636v47-{0}-ps96u5hvsm-ps96u5hvsm.gz
-D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\compressed\abu461ytlh-{0}-tj3llakwzk-tj3llakwzk.gz
 D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\compressed\gqtu2j9hu3-{0}-61n19gt1b8-61n19gt1b8.gz
 D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\compressed\ok6i85dzlp-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\compressed\86p045yujb-{0}-sgjm24n75q-sgjm24n75q.gz
@@ -256,3 +254,6 @@ D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\refint\HLE.Famil
 D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\HLE.FamilyFinance.pdb
 D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\HLE.FamilyFinance.genruntimeconfig.cache
 D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\ref\HLE.FamilyFinance.dll
+D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\compressed\6sci6k6kq5-{0}-hf87a8vacn-hf87a8vacn.gz
+D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\compressed\abu461ytlh-{0}-0fltrd9vqi-0fltrd9vqi.gz
+D:\Dev Projects\HLEcosystem\HLE.FamilyFinance\obj\Debug\net10.0\compressed\us8a7xva6a-{0}-l351phzlq4-l351phzlq4.gz

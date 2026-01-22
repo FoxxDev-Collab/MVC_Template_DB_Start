@@ -21,12 +21,16 @@ public class ReportService(
         // Net worth
         var netWorth = await accountService.GetNetWorthAsync(householdId, ct);
 
-        // Monthly income/expenses
+        // Monthly income/expenses (excluding balance adjustments and transfers)
+        // Also exclude transactions with Transfer category type (for manually categorized transfers)
         var monthlyTotals = await context.Transactions
             .AsNoTracking()
             .Where(t => t.HouseholdId == householdId &&
                        t.Date >= startOfMonth &&
-                       t.Date <= endOfMonth)
+                       t.Date <= endOfMonth &&
+                       t.Type != TransactionType.Transfer &&
+                       !t.IsBalanceAdjustment &&
+                       (t.Category == null || t.Category.Type != CategoryType.Transfer))
             .GroupBy(t => t.Type)
             .Select(g => new { Type = g.Key, Total = g.Sum(t => t.Amount) })
             .ToListAsync(ct);
@@ -78,7 +82,9 @@ public class ReportService(
             .AsNoTracking()
             .Where(t => t.HouseholdId == householdId &&
                        t.Date >= startDate &&
-                       t.Type != TransactionType.Transfer)
+                       t.Type != TransactionType.Transfer &&
+                       !t.IsBalanceAdjustment &&
+                       (t.Category == null || t.Category.Type != CategoryType.Transfer))
             .GroupBy(t => new { t.Date.Year, t.Date.Month, t.Type })
             .Select(g => new { g.Key.Year, g.Key.Month, g.Key.Type, Total = g.Sum(t => t.Amount) })
             .ToListAsync(ct);
@@ -122,7 +128,8 @@ public class ReportService(
                        t.Type == TransactionType.Expense &&
                        t.Date >= startDate &&
                        t.Date <= endDate &&
-                       t.CategoryId.HasValue)
+                       t.CategoryId.HasValue &&
+                       !t.IsBalanceAdjustment)
             .GroupBy(t => new { t.CategoryId, t.Category!.Name, t.Category.Icon, t.Category.Color })
             .Select(g => new
             {

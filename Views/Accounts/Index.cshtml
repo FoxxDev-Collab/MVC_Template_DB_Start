@@ -1,4 +1,5 @@
 @using HLE.FamilyFinance.Services.Interfaces
+@using HLE.FamilyFinance.Helpers
 @model List<AccountSummaryDto>
 @{
     ViewData["Title"] = "Accounts";
@@ -60,7 +61,17 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
-                                    <span class="fs-3 me-2">@(account.Icon ?? "🏦")</span>
+                                    @{
+                                        var icon = account.Icon ?? IconHelper.GetAccountIcon(account.Type);
+                                    }
+                                    @if (icon.StartsWith("bi-"))
+                                    {
+                                        <i class="@icon fs-3 me-2"></i>
+                                    }
+                                    else
+                                    {
+                                        <span class="fs-3 me-2">@icon</span>
+                                    }
                                     <h5 class="d-inline">@account.Name</h5>
                                     <p class="text-muted mb-2">@account.Type @(account.Institution != null ? $"• {account.Institution}" : "")</p>
                                 </div>

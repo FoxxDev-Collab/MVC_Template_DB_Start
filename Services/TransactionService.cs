@@ -66,6 +66,7 @@ public class TransactionService(ApplicationDbContext context, IAccountService ac
                 t.CategoryId,
                 t.Category != null ? t.Category.Name : null,
                 t.Category != null ? t.Category.Icon : null,
+                t.Category != null ? t.Category.Color : null,
                 t.IsReconciled,
                 t.IsCleared,
                 t.RecurringTransactionId.HasValue
@@ -262,6 +263,7 @@ public class TransactionService(ApplicationDbContext context, IAccountService ac
                 t.CategoryId,
                 t.Category != null ? t.Category.Name : null,
                 t.Category != null ? t.Category.Icon : null,
+                t.Category != null ? t.Category.Color : null,
                 t.IsReconciled,
                 t.IsCleared,
                 t.RecurringTransactionId.HasValue
@@ -278,7 +280,8 @@ public class TransactionService(ApplicationDbContext context, IAccountService ac
                        t.Type == TransactionType.Expense &&
                        t.Date >= startDate &&
                        t.Date <= endDate &&
-                       t.CategoryId.HasValue)
+                       t.CategoryId.HasValue &&
+                       !t.IsBalanceAdjustment)
             .GroupBy(t => new { t.CategoryId, t.Category!.Name, t.Category.Icon, t.Category.Color })
             .Select(g => new
             {
@@ -312,7 +315,9 @@ public class TransactionService(ApplicationDbContext context, IAccountService ac
             .Where(t => t.HouseholdId == householdId &&
                        t.Type == TransactionType.Income &&
                        t.Date >= startDate &&
-                       t.Date <= endDate)
+                       t.Date <= endDate &&
+                       !t.IsBalanceAdjustment &&
+                       (t.Category == null || t.Category.Type != CategoryType.Transfer))
             .SumAsync(t => t.Amount, ct);
     }
 
@@ -323,7 +328,9 @@ public class TransactionService(ApplicationDbContext context, IAccountService ac
             .Where(t => t.HouseholdId == householdId &&
                        t.Type == TransactionType.Expense &&
                        t.Date >= startDate &&
-                       t.Date <= endDate)
+                       t.Date <= endDate &&
+                       !t.IsBalanceAdjustment &&
+                       (t.Category == null || t.Category.Type != CategoryType.Transfer))
             .SumAsync(t => t.Amount, ct);
     }
 }

@@ -1,5 +1,6 @@
 @using HLE.FamilyFinance.Services.Interfaces
 @using HLE.FamilyFinance.Models.ViewModels
+@using HLE.FamilyFinance.Helpers
 @model PagedResult<TransactionListItemDto>
 @{
     ViewData["Title"] = "Transactions";
@@ -121,7 +122,17 @@
                                 <td>
                                     @if (transaction.CategoryName != null)
                                     {
-                                        <span>@(transaction.CategoryIcon ?? "") @transaction.CategoryName</span>
+                                        var txCatIcon = transaction.CategoryIcon ?? "";
+                                        var txCatStyle = !string.IsNullOrEmpty(transaction.CategoryColor) ? $"color: {transaction.CategoryColor}" : "";
+                                        @if (txCatIcon.StartsWith("bi-"))
+                                        {
+                                            <i class="@txCatIcon me-1" style="@txCatStyle"></i>
+                                        }
+                                        else if (!string.IsNullOrEmpty(txCatIcon))
+                                        {
+                                            <span class="me-1" style="@txCatStyle">@txCatIcon</span>
+                                        }
+                                        <span>@transaction.CategoryName</span>
                                     }
                                     else
                                     {

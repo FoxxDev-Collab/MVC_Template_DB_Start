@@ -628,13 +628,20 @@
 /* Tables */
 .table {
     color: var(--foreground);
-    border-color: var(--border);
+    border-color: var(--sidebar-border);
+    --bs-table-color: var(--foreground);
+    --bs-table-bg: transparent;
+    --bs-table-border-color: var(--sidebar-border);
+    --bs-table-striped-color: var(--foreground);
+    --bs-table-striped-bg: var(--muted);
+    --bs-table-hover-color: var(--foreground);
+    --bs-table-hover-bg: var(--accent);
 }
 
 .table thead th {
     background-color: transparent;
     color: var(--muted-foreground);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--sidebar-border);
     font-weight: 500;
     font-size: 0.75rem;
     text-transform: uppercase;
@@ -643,11 +650,13 @@
 }
 
 .table tbody tr {
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--sidebar-border);
 }
 
 .table tbody td {
     padding: 0.75rem 1rem;
+    background-color: transparent;
+    color: var(--foreground);
 }
 
 .table tbody tr:hover {
@@ -660,6 +669,101 @@
 
 .table-striped tbody tr:nth-of-type(even) {
     background-color: var(--muted);
+}
+
+/* Bootstrap table header - dark mode support only */
+.dark .table-light,
+.dark .table thead.table-light th {
+    background-color: var(--muted) !important;
+    color: var(--muted-foreground) !important;
+    border-color: var(--sidebar-border) !important;
+}
+
+/* Bootstrap table row variants - dark mode support only */
+.dark .table-secondary,
+.dark .table tbody tr.table-secondary,
+.dark .table tbody tr.table-secondary td {
+    background-color: var(--muted) !important;
+    color: var(--muted-foreground) !important;
+}
+
+.dark .table-success,
+.dark .table tbody tr.table-success,
+.dark .table tbody tr.table-success td {
+    background-color: color-mix(in srgb, var(--chart-2) 15%, transparent) !important;
+    color: var(--foreground) !important;
+}
+
+.dark .table-warning,
+.dark .table tbody tr.table-warning,
+.dark .table tbody tr.table-warning td {
+    background-color: color-mix(in srgb, var(--chart-3) 15%, transparent) !important;
+    color: var(--foreground) !important;
+}
+
+.dark .table-danger,
+.dark .table tbody tr.table-danger,
+.dark .table tbody tr.table-danger td {
+    background-color: color-mix(in srgb, var(--destructive) 15%, transparent) !important;
+    color: var(--foreground) !important;
+}
+
+.dark .table-info,
+.dark .table tbody tr.table-info,
+.dark .table tbody tr.table-info td {
+    background-color: color-mix(in srgb, var(--primary) 15%, transparent) !important;
+    color: var(--foreground) !important;
+}
+
+/* Sticky table header in dark mode */
+.dark .table thead.sticky-top th {
+    background-color: var(--muted) !important;
+}
+
+/* Table tfoot dark mode support */
+.dark .table tfoot.table-light,
+.dark .table tfoot.table-light td,
+.dark .table tfoot.table-light th {
+    background-color: var(--muted) !important;
+    color: var(--foreground) !important;
+}
+
+/* Bordered table - both modes */
+.table-bordered {
+    border-color: var(--sidebar-border);
+}
+
+.table-bordered td, .table-bordered th {
+    border-color: var(--sidebar-border);
+}
+
+/* Calendar table cells with bg-light fix for dark mode */
+.dark td.bg-light, .dark th.bg-light {
+    background-color: var(--muted) !important;
+}
+
+/* bg-primary with opacity fix - both modes */
+.bg-primary.bg-opacity-10 {
+    background-color: color-mix(in srgb, var(--primary) 10%, transparent) !important;
+}
+
+/* Table inside card - ensure proper fit */
+.card > .table-responsive {
+    border-radius: inherit;
+}
+
+.card > .table-responsive > .table {
+    margin-bottom: 0;
+}
+
+.card > .table-responsive > .table > thead > tr > th:first-child,
+.card > .table-responsive > .table > tbody > tr > td:first-child {
+    padding-left: 1rem;
+}
+
+.card > .table-responsive > .table > thead > tr > th:last-child,
+.card > .table-responsive > .table > tbody > tr > td:last-child {
+    padding-right: 1rem;
 }
 
 /* List Group */
@@ -1443,4 +1547,47 @@
         padding: 0.5rem 0.75rem;
         font-size: 0.875rem;
     }
+}
+
+/* Row status classes for dark mode support */
+.table-themed tbody tr.row-muted {
+    background-color: var(--muted);
+    color: var(--muted-foreground);
+}
+
+.table-themed tbody tr.row-success {
+    background-color: color-mix(in srgb, var(--chart-2) 15%, transparent);
+}
+
+.table-themed tbody tr.row-warning {
+    background-color: color-mix(in srgb, var(--chart-3) 15%, transparent);
+}
+
+.table-themed tbody tr.row-danger {
+    background-color: color-mix(in srgb, var(--destructive) 15%, transparent);
+}
+
+.table-themed tbody tr.row-info {
+    background-color: color-mix(in srgb, var(--primary) 15%, transparent);
+}
+
+/* Hover states for row classes */
+.table-themed.table-hover tbody tr.row-muted:hover {
+    background-color: var(--accent);
+}
+
+.table-themed.table-hover tbody tr.row-success:hover {
+    background-color: color-mix(in srgb, var(--chart-2) 25%, transparent);
+}
+
+.table-themed.table-hover tbody tr.row-warning:hover {
+    background-color: color-mix(in srgb, var(--chart-3) 25%, transparent);
+}
+
+.table-themed.table-hover tbody tr.row-danger:hover {
+    background-color: color-mix(in srgb, var(--destructive) 25%, transparent);
+}
+
+.table-themed.table-hover tbody tr.row-info:hover {
+    background-color: color-mix(in srgb, var(--primary) 25%, transparent);
 }

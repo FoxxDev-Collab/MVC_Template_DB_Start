@@ -43,13 +43,14 @@ public class AccountService(ApplicationDbContext context, ILogger<AccountService
 
         var transactionStats = await context.Transactions
             .AsNoTracking()
+            .Include(t => t.Category)
             .Where(t => t.AccountId == id && t.Date >= startOfMonth && t.Date <= endOfMonth)
             .GroupBy(t => 1)
             .Select(g => new
             {
                 Count = g.Count(),
-                Income = g.Where(t => t.Type == TransactionType.Income).Sum(t => t.Amount),
-                Expenses = g.Where(t => t.Type == TransactionType.Expense).Sum(t => t.Amount)
+                Income = g.Where(t => t.Type == TransactionType.Income && !t.IsBalanceAdjustment && (t.Category == null || t.Category.Type != CategoryType.Transfer)).Sum(t => t.Amount),
+                Expenses = g.Where(t => t.Type == TransactionType.Expense && !t.IsBalanceAdjustment && (t.Category == null || t.Category.Type != CategoryType.Transfer)).Sum(t => t.Amount)
             })
             .FirstOrDefaultAsync(ct);
 
@@ -156,11 +157,58 @@ public class AccountService(ApplicationDbContext context, ILogger<AccountService
             .FirstOrDefaultAsync(a => a.Id == id && a.HouseholdId == householdId, ct)
             ?? throw new InvalidOperationException("Account not found");
 
+        // Calculate the difference between current and desired balance
+        var difference = newBalance - account.CurrentBalance;
+
+        if (difference == 0)
+        {
+            logger.LogInformation("No balance adjustment needed for account {AccountId}", id);
+            return;
+        }
+
+        // Find or create a "Balance Adjustment" category
+        var adjustmentCategory = await context.Categories
+            .FirstOrDefaultAsync(c => c.HouseholdId == householdId && c.Name == "Balance Adjustment", ct);
+
+        if (adjustmentCategory == null)
+        {
+            adjustmentCategory = new Category
+            {
+                HouseholdId = householdId,
+                Name = "Balance Adjustment",
+                Type = CategoryType.Transfer, // Excluded from income/expense calculations
+                Icon = "bi-sliders",
+                Color = "#6c757d",
+                CreatedAt = DateTime.UtcNow
+            };
+            context.Categories.Add(adjustmentCategory);
+            await context.SaveChangesAsync(ct);
+        }
+
+        // Create an adjustment transaction
+        var transaction = new Transaction
+        {
+            HouseholdId = householdId,
+            AccountId = id,
+            CategoryId = adjustmentCategory.Id,
+            Amount = Math.Abs(difference),
+            Type = difference > 0 ? TransactionType.Income : TransactionType.Expense,
+            Date = DateOnly.FromDateTime(DateTime.UtcNow),
+            Description = $"Balance adjustment: {account.CurrentBalance:C} → {newBalance:C}",
+            IsBalanceAdjustment = true,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        context.Transactions.Add(transaction);
+
+        // Update the account balance
         account.CurrentBalance = newBalance;
         account.UpdatedAt = DateTime.UtcNow;
+
         await context.SaveChangesAsync(ct);
 
-        logger.LogInformation("Adjusted balance for account {AccountId} to {NewBalance}", id, newBalance);
+        logger.LogInformation("Created balance adjustment transaction for account {AccountId}: {Difference:C} (new balance: {NewBalance:C})",
+            id, difference, newBalance);
     }
 
     public async Task RecalculateBalanceAsync(int accountId, CancellationToken ct = default)

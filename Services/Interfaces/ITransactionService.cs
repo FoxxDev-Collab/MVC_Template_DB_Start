@@ -30,6 +30,7 @@ public record TransactionListItemDto(
     int? CategoryId,
     string? CategoryName,
     string? CategoryIcon,
+    string? CategoryColor,
     bool IsReconciled,
     bool IsCleared,
     bool IsRecurring

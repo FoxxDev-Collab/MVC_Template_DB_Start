@@ -1,0 +1,152 @@
+@using HLE.FamilyFinance.Services.Interfaces
+@using HLE.FamilyFinance.Models.Enums
+@using HLE.FamilyFinance.Helpers
+@model TaxYearDetailDto
+@{
+    ViewData["Title"] = $"Edit {Model.Year} Tax Year";
+}
+
+<div class="py-4">
+    <h2><i class="bi-pencil me-2"></i>Edit @Model.Year Tax Year</h2>
+    <p class="text-muted">Update tax year information and filing status.</p>
+
+    <form asp-action="Edit" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Tax Year Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Tax Year</label>
+                                <input name="Year" class="form-control" type="number" value="@Model.Year" readonly />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Filing Status</label>
+                                <select name="FederalFilingStatus" asp-items="@(ViewData["FilingStatuses"] as SelectList)" class="form-select"></select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">State</label>
+                                <input name="State" class="form-control" value="@Model.State" maxlength="2" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Filing Status</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input name="IsFederalFiled" class="form-check-input" type="checkbox" id="federalFiled" @(Model.IsFederalFiled ? "checked" : "") />
+                                    <label class="form-check-label" for="federalFiled">Federal Return Filed</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input name="IsStateFiled" class="form-check-input" type="checkbox" id="stateFiled" @(Model.IsStateFiled ? "checked" : "") />
+                                    <label class="form-check-label" for="stateFiled">State Return Filed</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Refund / Amount Owed</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted small">Enter positive number for refund, negative for amount owed.</p>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Federal Refund</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input name="FederalRefund" class="form-control money-input" type="text" value="@Model.FederalRefund" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">State Refund</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input name="StateRefund" class="form-control money-input" type="text" value="@Model.StateRefund" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Notes</label>
+                            <textarea name="Notes" class="form-control" rows="3">@Model.Notes</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary"><i class="bi-check-lg me-1"></i>Save Changes</button>
+                    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Documents (@Model.Documents.Count)</h5>
+                        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">Manage Documents</a>
+                    </div>
+                    @if (Model.Documents.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var doc in Model.Documents.Take(5))
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>
+                                        <i class="@IconHelper.GetTaxDocumentIcon(doc.DocumentType) me-2"></i>
+                                        @doc.DocumentType - @doc.Issuer
+                                    </span>
+                                    @if (doc.IsReceived)
+                                    {
+                                        <span class="badge bg-success">Received</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark">Waiting</span>
+                                    }
+                                </li>
+                            }
+                            @if (Model.Documents.Count > 5)
+                            {
+                                <li class="list-group-item text-muted text-center">
+                                    +@(Model.Documents.Count - 5) more documents
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <div class="card-body text-center">
+                            <p class="text-muted mb-0">No documents added yet.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+<script>
+    // Set initial filing status value
+    document.querySelector('select[name="FederalFilingStatus"]').value = '@Model.FederalFilingStatus';
+</script>
+}

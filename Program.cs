@@ -4,6 +4,7 @@ using HLE.FamilyFinance.Services;
 using HLE.FamilyFinance.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -11,6 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Increase form value count limit for large imports (default is 1024)
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.ValueCountLimit = 10000;
+});
 
 // Add session support for authentication flows
 builder.Services.AddDistributedMemoryCache();
@@ -35,6 +42,22 @@ builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IBudgetService, BudgetService>();
 builder.Services.AddScoped<IRecurringTransactionService, RecurringTransactionService>();
 builder.Services.AddScoped<IReportService, ReportService>();
+
+// Asset & Debt services
+builder.Services.AddScoped<IAssetService, AssetService>();
+builder.Services.AddScoped<IDebtService, DebtService>();
+
+// Bill tracking services
+builder.Services.AddScoped<IBillService, BillService>();
+
+// Tax services
+builder.Services.AddScoped<ITaxService, TaxService>();
+
+// Import services
+builder.Services.AddScoped<IImportService, ImportService>();
+
+// Budget Planner services
+builder.Services.AddScoped<IBudgetPlannerService, BudgetPlannerService>();
 
 // Configure Authentik OIDC Authentication
 builder.Services.AddAuthentication(options =>

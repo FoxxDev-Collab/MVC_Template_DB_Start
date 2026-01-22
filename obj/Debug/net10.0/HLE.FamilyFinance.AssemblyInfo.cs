@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HLE.FamilyFinance")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c98c1bfe89c856cc8a860138961c4f5e107bf137")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cac2fe8f24e39097f76c56fd2525818aa89d6bf8")]
 [assembly: System.Reflection.AssemblyProductAttribute("HLE.FamilyFinance")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HLE.FamilyFinance")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

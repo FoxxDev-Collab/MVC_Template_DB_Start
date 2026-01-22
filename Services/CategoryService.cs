@@ -143,15 +143,15 @@ public class CategoryService(ApplicationDbContext context, ILogger<CategoryServi
         var categories = new List<Category>();
         var sortOrder = 0;
 
-        // Income categories
+        // Income categories (using Bootstrap Icons)
         var incomeCategories = new[]
         {
-            ("Salary", "💰", "#22c55e"),
-            ("Freelance", "💼", "#10b981"),
-            ("Investments", "📈", "#14b8a6"),
-            ("Rental Income", "🏠", "#06b6d4"),
-            ("Gifts", "🎁", "#0ea5e9"),
-            ("Other Income", "💵", "#3b82f6")
+            ("Salary", "bi-cash-coin", "#22c55e"),
+            ("Freelance", "bi-briefcase", "#10b981"),
+            ("Investments", "bi-graph-up-arrow", "#14b8a6"),
+            ("Rental Income", "bi-house-door", "#06b6d4"),
+            ("Gifts", "bi-gift", "#0ea5e9"),
+            ("Other Income", "bi-cash-stack", "#3b82f6")
         };
 
         foreach (var (name, icon, color) in incomeCategories)
@@ -168,21 +168,45 @@ public class CategoryService(ApplicationDbContext context, ILogger<CategoryServi
             });
         }
 
-        // Expense categories with subcategories
+        // Transfer category (excluded from income/expense calculations)
+        categories.Add(new Category
+        {
+            HouseholdId = householdId,
+            Name = "Transfer",
+            Type = CategoryType.Transfer,
+            Icon = "bi-arrow-left-right",
+            Color = "#6b7280",
+            SortOrder = sortOrder++,
+            CreatedAt = DateTime.UtcNow
+        });
+
+        // Balance Adjustment category (excluded from income/expense calculations)
+        categories.Add(new Category
+        {
+            HouseholdId = householdId,
+            Name = "Balance Adjustment",
+            Type = CategoryType.Transfer,
+            Icon = "bi-plus-slash-minus",
+            Color = "#9ca3af",
+            SortOrder = sortOrder++,
+            CreatedAt = DateTime.UtcNow
+        });
+
+        // Expense categories with subcategories (using Bootstrap Icons)
         var expenseCategories = new (string Name, string Icon, string Color, string[]? SubCategories)[]
         {
-            ("Housing", "🏠", "#ef4444", new[] { "Rent/Mortgage", "Property Tax", "Home Insurance", "Maintenance" }),
-            ("Transportation", "🚗", "#f97316", new[] { "Gas", "Car Payment", "Insurance", "Maintenance", "Public Transit" }),
-            ("Food", "🍔", "#f59e0b", new[] { "Groceries", "Restaurants", "Coffee Shops" }),
-            ("Utilities", "💡", "#eab308", new[] { "Electric", "Gas", "Water", "Internet", "Phone" }),
-            ("Healthcare", "🏥", "#84cc16", new[] { "Insurance", "Medical", "Dental", "Pharmacy" }),
-            ("Entertainment", "🎬", "#22c55e", new[] { "Streaming", "Movies", "Games", "Hobbies" }),
-            ("Shopping", "🛍️", "#10b981", new[] { "Clothing", "Electronics", "Home Goods" }),
-            ("Personal", "💇", "#14b8a6", new[] { "Haircare", "Gym", "Subscriptions" }),
-            ("Education", "📚", "#06b6d4", new[] { "Tuition", "Books", "Courses" }),
-            ("Financial", "🏦", "#0ea5e9", new[] { "Bank Fees", "Interest", "Investments" }),
-            ("Gifts & Donations", "🎁", "#3b82f6", new[] { "Gifts", "Charity" }),
-            ("Travel", "✈️", "#8b5cf6", new[] { "Flights", "Hotels", "Activities" })
+            ("Housing", "bi-house", "#ef4444", new[] { "Rent/Mortgage", "Property Tax", "Home Insurance", "Maintenance" }),
+            ("Transportation", "bi-car-front", "#f97316", new[] { "Gas", "Car Payment", "Insurance", "Maintenance", "Public Transit" }),
+            ("Food", "bi-basket", "#f59e0b", new[] { "Groceries", "Restaurants", "Coffee Shops" }),
+            ("Utilities", "bi-lightning-charge", "#eab308", new[] { "Electric", "Gas", "Water", "Internet", "Phone" }),
+            ("Healthcare", "bi-heart-pulse", "#84cc16", new[] { "Insurance", "Medical", "Dental", "Pharmacy" }),
+            ("Entertainment", "bi-film", "#22c55e", new[] { "Streaming", "Movies", "Games", "Hobbies" }),
+            ("Shopping", "bi-bag", "#10b981", new[] { "Clothing", "Electronics", "Home Goods" }),
+            ("Personal", "bi-person", "#14b8a6", new[] { "Haircare", "Gym", "Subscriptions" }),
+            ("Education", "bi-book", "#06b6d4", new[] { "Tuition", "Books", "Courses" }),
+            ("Financial", "bi-bank", "#0ea5e9", new[] { "Bank Fees", "Interest", "Investments" }),
+            ("Gifts & Donations", "bi-gift", "#3b82f6", new[] { "Gifts", "Charity" }),
+            ("Travel", "bi-airplane", "#8b5cf6", new[] { "Flights", "Hotels", "Activities" })
         };
 
         foreach (var (name, icon, color, subCategories) in expenseCategories)

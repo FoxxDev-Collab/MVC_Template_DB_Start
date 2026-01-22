@@ -50,6 +50,66 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Assets/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXRzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Assets/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXRzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Assets/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXRzXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Assets/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXRzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Bills/Calendar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbHNcQ2FsZW5kYXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Bills/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbHNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Bills/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbHNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Bills/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbHNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Bills/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Bills/Upcoming.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbHNcVXBjb21pbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/BudgetPlanner/Affordability.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVkZ2V0UGxhbm5lclxBZmZvcmRhYmlsaXR5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/BudgetPlanner/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVkZ2V0UGxhbm5lclxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/BudgetPlanner/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVkZ2V0UGxhbm5lclxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/BudgetPlanner/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVkZ2V0UGxhbm5lclxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/BudgetPlanner/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVkZ2V0UGxhbm5lclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Budgets/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVkZ2V0c1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -78,6 +138,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcG9uZW50c1xEZW1vLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Debts/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVidHNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Debts/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVidHNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Debts/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVidHNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Debts/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVidHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Home/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -88,6 +164,22 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Home/Landing.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxMYW5kaW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Import/History.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1wb3J0XEhpc3RvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Import/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1wb3J0XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Import/Review.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1wb3J0XFJldmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Import/Rules.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1wb3J0XFJ1bGVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/RecurringTransactions/Create.cshtml]
@@ -174,6 +266,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ecm9wZG93bi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Shared/_IconPicker.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9JY29uUGlja2VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Shared/_NavBar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9OYXZCYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -212,6 +308,22 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Tax/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGF4XENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Tax/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGF4XERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Tax/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGF4XEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Tax/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGF4XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Dev Projects/HLEcosystem/HLE.FamilyFinance/Views/Transactions/Create.cshtml]

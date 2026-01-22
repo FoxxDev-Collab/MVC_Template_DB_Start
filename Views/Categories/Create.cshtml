@@ -46,8 +46,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label asp-for="Icon" class="form-label">Icon (Emoji)</label>
-                                    <input asp-for="Icon" class="form-control" placeholder="e.g., 🛒" maxlength="10" />
+                                    <label class="form-label">Icon</label>
+                                    <partial name="_IconPicker" model="@(("Icon", Model.Icon))" />
                                     <span asp-validation-for="Icon" class="text-danger"></span>
                                 </div>
                             </div>

@@ -45,25 +45,28 @@ public class BudgetService(ApplicationDbContext context, ILogger<BudgetService> 
             .Where(b => b.HouseholdId == householdId && b.Year == year && b.Month == month)
             .ToDictionaryAsync(b => b.CategoryId, b => b.Amount, ct);
 
-        // Get spending by category for this month
+        // Get spending by category for this month (excluding balance adjustments)
         var spending = await context.Transactions
             .AsNoTracking()
             .Where(t => t.HouseholdId == householdId &&
                        t.Type == TransactionType.Expense &&
                        t.Date >= startDate &&
                        t.Date <= endDate &&
-                       t.CategoryId.HasValue)
+                       t.CategoryId.HasValue &&
+                       !t.IsBalanceAdjustment)
             .GroupBy(t => t.CategoryId)
             .Select(g => new { CategoryId = g.Key!.Value, Amount = g.Sum(t => t.Amount), Count = g.Count() })
             .ToDictionaryAsync(x => x.CategoryId, x => (x.Amount, x.Count), ct);
 
-        // Get total income for savings rate calculation
+        // Get total income for savings rate calculation (excluding balance adjustments and transfers)
         var totalIncome = await context.Transactions
             .AsNoTracking()
             .Where(t => t.HouseholdId == householdId &&
                        t.Type == TransactionType.Income &&
                        t.Date >= startDate &&
-                       t.Date <= endDate)
+                       t.Date <= endDate &&
+                       !t.IsBalanceAdjustment &&
+                       (t.Category == null || t.Category.Type != CategoryType.Transfer))
             .SumAsync(t => t.Amount, ct);
 
         var budgetCategories = categories.Select(c =>
@@ -223,7 +226,8 @@ public class BudgetService(ApplicationDbContext context, ILogger<BudgetService> 
             .AsNoTracking()
             .Where(t => t.HouseholdId == householdId &&
                        t.Type == TransactionType.Expense &&
-                       t.Date >= startDate)
+                       t.Date >= startDate &&
+                       !t.IsBalanceAdjustment)
             .GroupBy(t => new { t.Date.Year, t.Date.Month })
             .Select(g => new { g.Key.Year, g.Key.Month, Amount = g.Sum(t => t.Amount) })
             .ToDictionaryAsync(x => (x.Year, x.Month), x => x.Amount, ct);

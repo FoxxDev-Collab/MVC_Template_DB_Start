@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HLE.FamilyFinance.Services;
 
-public class HouseholdService(ApplicationDbContext context, ILogger<HouseholdService> logger) : IHouseholdService
+public class HouseholdService(ApplicationDbContext context, ICategoryService categoryService, ILogger<HouseholdService> logger) : IHouseholdService
 {
     public async Task<Household> GetOrCreateHouseholdAsync(string userId, string displayName, string? email, CancellationToken ct = default)
     {
@@ -45,6 +45,9 @@ public class HouseholdService(ApplicationDbContext context, ILogger<HouseholdSer
 
         context.HouseholdMembers.Add(member);
         await context.SaveChangesAsync(ct);
+
+        // Seed default categories for the new household
+        await categoryService.SeedDefaultCategoriesAsync(household.Id, ct);
 
         logger.LogInformation("Created new household {HouseholdId} for user {UserId}", household.Id, userId);
         return household;

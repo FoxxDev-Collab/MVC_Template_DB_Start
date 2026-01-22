@@ -60,9 +60,19 @@ public class Transaction
     public bool IsCleared { get; set; }
 
     /// <summary>
+    /// Whether this transaction is a balance adjustment (should be excluded from income/expense reports)
+    /// </summary>
+    public bool IsBalanceAdjustment { get; set; }
+
+    /// <summary>
     /// Optional tags for additional categorization
     /// </summary>
     public string[]? Tags { get; set; }
+
+    /// <summary>
+    /// External ID from bank (FITID from QFX/OFX) for duplicate detection
+    /// </summary>
+    public string? ExternalId { get; set; }
 
     /// <summary>
     /// User who created this transaction

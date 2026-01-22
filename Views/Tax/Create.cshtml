@@ -1,0 +1,141 @@
+@using HLE.FamilyFinance.Services.Interfaces
+@using HLE.FamilyFinance.Models.Enums
+@model TaxYearCreateDto?
+@{
+    ViewData["Title"] = "Add Tax Year";
+    var currentYear = DateTime.Today.Year;
+}
+
+<div class="py-4">
+    <h2><i class="bi-plus-circle me-2"></i>Add Tax Year</h2>
+    <p class="text-muted">Start tracking a new tax year.</p>
+
+    <form asp-action="Create" method="post">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Tax Year Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Tax Year</label>
+                                <select asp-for="Year" class="form-select" required>
+                                    @for (var y = currentYear; y >= currentYear - 5; y--)
+                                    {
+                                        <option value="@y" selected="@(y == currentYear - 1)">@y</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Filing Status</label>
+                                <select asp-for="FederalFilingStatus" asp-items="@(ViewData["FilingStatuses"] as SelectList)" class="form-select"></select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">State (optional)</label>
+                                <input asp-for="State" class="form-control" placeholder="e.g., CA, TX, NY" maxlength="2" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Expected Documents</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted small">Add the tax documents you expect to receive for this year.</p>
+                        <div id="documentList">
+                            <!-- Documents will be added here dynamically -->
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="addDocument">
+                            <i class="bi-plus me-1"></i>Add Document
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Notes</label>
+                            <textarea asp-for="Notes" class="form-control" rows="3" placeholder="Any notes about this tax year..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary"><i class="bi-check-lg me-1"></i>Create Tax Year</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card hint-card">
+                    <div class="card-body">
+                        <h6><i class="bi-lightbulb me-2"></i>Common Tax Documents</h6>
+                        <ul class="small text-muted mb-0">
+                            <li><strong>W-2</strong> - Wage and Tax Statement (from employers)</li>
+                            <li><strong>1099-INT</strong> - Interest Income (from banks)</li>
+                            <li><strong>1099-DIV</strong> - Dividend Income (from investments)</li>
+                            <li><strong>1099-NEC</strong> - Non-Employee Compensation (freelance work)</li>
+                            <li><strong>1098</strong> - Mortgage Interest Statement</li>
+                            <li><strong>1099-B</strong> - Proceeds from Broker Transactions</li>
+                            <li><strong>1099-R</strong> - Retirement Distributions</li>
+                            <li><strong>K-1</strong> - Partnership/S-Corp Income</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Document Template (hidden) -->
+<template id="documentTemplate">
+    <div class="document-entry border rounded p-2 mb-2">
+        <div class="row g-2 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label small">Document Type</label>
+                <select name="Documents[INDEX].DocumentType" class="form-select form-select-sm">
+                    @foreach (TaxDocumentType docType in Enum.GetValues(typeof(TaxDocumentType)))
+                    {
+                        <option value="@docType">@docType</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-5">
+                <label class="form-label small">Issuer</label>
+                <input name="Documents[INDEX].Issuer" class="form-control form-control-sm" placeholder="e.g., Employer Name" />
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-outline-danger btn-sm w-100 remove-doc">
+                    <i class="bi-trash"></i> Remove
+                </button>
+            </div>
+        </div>
+    </div>
+</template>
+
+@section Scripts {
+<script>
+    let docIndex = 0;
+    const template = document.getElementById('documentTemplate');
+    const list = document.getElementById('documentList');
+
+    document.getElementById('addDocument').addEventListener('click', function() {
+        const clone = template.content.cloneNode(true);
+        clone.querySelectorAll('[name]').forEach(el => {
+            el.name = el.name.replace('INDEX', docIndex);
+        });
+        list.appendChild(clone);
+        docIndex++;
+    });
+
+    list.addEventListener('click', function(e) {
+        if (e.target.closest('.remove-doc')) {
+            e.target.closest('.document-entry').remove();
+        }
+    });
+</script>
+}
